@@ -127,7 +127,7 @@ module.exports = (function () {
             street_number: data[2][i + 1],
             restriction_date: normallizeDate(data[3][i + 1]),
             recovery_date: normallizeDate(data[4][i + 1]),
-            duration: calculateDuration(data[3][i + 1], data[4][i + 1]),
+            restriction_duration: calculateDuration(data[3][i + 1], data[4][i + 1]),
             postponement: data[5][i + 1],
             reason: data[6][i + 1],
             place_of_work: data[7][i + 1]
