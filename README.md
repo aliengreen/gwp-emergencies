@@ -30,16 +30,16 @@ gem.get({date: '2018-05-08', street_name: 'პოლიტკოვსკაი�
 ```javascript
   [
     {
-      "date": "2018-05-08", // Date format YYYY-MM-DD
-      "district": "Vake", // String
-      "address": "პოლიტკოვსკაიას ქ.", // String 
-      "reason": "Damage the water supply network", // String
-      "postponement": "NOT POSTPONED", // String
-      "place_of_work": "პოლიტკოვსკაიას ქ. N 8-თან", // String
-      "building": "", // String
-      "street_number": "", // String
-      "restriction_date": "2018-05-08T02:30:00Z", // ISO 8601 date format
-      "recovery_date": "2018-05-08T09:00:00Z" // ISO 8601 date format
+        "date": "2018-05-08", // Date format YYYY-MM-DD
+        "district": "Vake", // String
+        "address": "პოლიტკოვსკაიას ქ.", // String
+        "building": "", // String
+        "street_number": "", // String
+        "restriction_date": "2018-08-05T02:30:00.000Z", // ISO 8601 date format
+        "recovery_date": "2018-08-05T09:00:00.000Z", // ISO 8601 date format
+        "postponement": "NOT POSTPONED", // String
+        "reason": "Damage the water supply network", // String
+        "place_of_work": "პოლიტკოვსკაიას ქ. N 8-თან" // String
     }
   ]
 ```
