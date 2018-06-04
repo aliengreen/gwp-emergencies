@@ -11,25 +11,6 @@ module.exports = (function () {
   var defTimeout = 10000,
       url        = 'https://www.gwp.ge/en/gadaudebeli-new';
 
-  var getAttribute = function (body, name) {
-    var searchString    = name + ": <STRONG>";
-    var searchString2   = name + ": <input type=\"text\" name=\"o.amount\" value=\"";
-    var start_attribute = body.indexOf(searchString);
-    var end_attribute;
-    if (start_attribute !== -1) {
-      end_attribute = body.indexOf("</STRONG>", start_attribute);
-      return body.substr(start_attribute + searchString.length, end_attribute - start_attribute - searchString.length);
-    } else {
-      start_attribute = body.indexOf(searchString2);
-      if (start_attribute !== -1) {
-        end_attribute = body.indexOf("\" autocomplete=\"off\">", start_attribute);
-        return body.substr(start_attribute + searchString2.length, end_attribute - start_attribute - searchString2.length);
-      }
-    }
-
-    return undefined;
-  };
-
   var checkDate = function (date) {
     if (date.length === 10) {
       if (date.indexOf("-") !== -1) {
@@ -68,6 +49,22 @@ module.exports = (function () {
     var tzoffset = (new Date()).getTimezoneOffset() * 60000; // Offset in milliseconds
     return (new Date(dt - tzoffset)).toISOString();
   };
+
+  var calculateDuration = function (restriction_date, recovery_date) {
+    restriction_date  = restriction_date.replace(/\n/g, '');
+    restriction_date += " GMT+0400"; // Explicit set timezone +4 for parsing correctly 
+    var res_date = new Date(Date.parse(restriction_date));
+
+    recovery_date  = recovery_date.replace(/\n/g, '');
+    recovery_date += " GMT+0400"; // Explicit set timezone +4 for parsing correctly 
+    var rec_date = new Date(Date.parse(recovery_date));
+
+    var tmp  = (rec_date - res_date) / 1000;
+    var hour = parseInt((tmp / 60) / 60);
+    var min  = parseInt((tmp / 60) % 60);
+    return hour + ':' + min;
+  };
+  
 
   var get = function get(options, callback) {
 
@@ -130,6 +127,7 @@ module.exports = (function () {
             street_number: data[2][i + 1],
             restriction_date: normallizeDate(data[3][i + 1]),
             recovery_date: normallizeDate(data[4][i + 1]),
+            duration: calculateDuration(data[3][i + 1], data[4][i + 1]),
             postponement: data[5][i + 1],
             reason: data[6][i + 1],
             place_of_work: data[7][i + 1]
@@ -143,6 +141,8 @@ module.exports = (function () {
            result.push(record);
         }
       }
+
+      // console.log(result);
 
       return callback(null, result);
     });

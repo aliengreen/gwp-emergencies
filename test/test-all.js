@@ -12,12 +12,12 @@ describe('gwp-emergencies', function() {
   // find
   describe('get()', function() {
     it('should get a emergency info with given date 2018-05-08', function(done) {
-      kbalance.get({date: '2018-05-08'}, function(err, result) {
+      kbalance.get({date: '2018-05-08', street_name: 'პოლიტკოვსკაია'}, function(err, result) {
         if(err) return done(err);
 
         expect(err).to.be.equal(null);
         expect(result).to.be.a('array');
-        expect(result).to.have.deep.property('[0].address', 'ჯავახიშვილის ქ.');
+        expect(result).to.have.deep.property('[0].address', 'პოლიტკოვსკაიას ქ.');
 
         done();
       });
