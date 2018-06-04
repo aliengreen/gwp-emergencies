@@ -23,8 +23,8 @@ module.exports = (function () {
   var normallizeAddress = function (address) {
     var norm = address.split(';');
     
-    if(norm.length == 2) {
-      return norm[1].trim();
+    if(norm.length >= 2) {
+      return norm[norm.length - 1].trim();
     }
 
     return address;
@@ -33,7 +33,7 @@ module.exports = (function () {
   var normallizeDistrict = function (address) {
     var norm = address.split(';');
     
-    if(norm.length == 2) {
+    if(norm.length >= 2) {
       return norm[0].trim();
     }
 
@@ -45,7 +45,7 @@ module.exports = (function () {
     date  = date.replace(/\s+/g, ' ');
     date  = date.replace(/\./g, '-');
 
-    let dateString = date //"01:02 2010-08-13"
+    let dateString = date 
       , reggie = /(\d{2}):(\d{2}) (\d{2})-(\d{2})-(\d{4})/
       , [, hours, minutes, day, month, year] = reggie.exec(dateString)
       , dateObject = new Date(year, month-1, day, hours, minutes);
@@ -64,7 +64,6 @@ module.exports = (function () {
     var min  = parseInt((tmp / 60) % 60);
     return ('0' + hour).slice(-2) + ':' + ('0' + min).slice(-2);
   };
-  
 
   var get = function get(options, callback) {
 
