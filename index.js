@@ -59,11 +59,10 @@ module.exports = (function () {
     var res_date = normallizeDate(restriction_date);
     var rec_date = normallizeDate(recovery_date);
 
-
     var tmp  = (rec_date - res_date) / 1000;
     var hour = parseInt((tmp / 60) / 60);
     var min  = parseInt((tmp / 60) % 60);
-    return hour + ':' + ('0' + min).slice(-2);;
+    return ('0' + hour).slice(-2) + ':' + ('0' + min).slice(-2);
   };
   
 

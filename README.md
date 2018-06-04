@@ -37,7 +37,7 @@ gem.get({date: '2018-05-08', street_name: 'პოლიტკოვსკაი�
         "street_number": "", // String
         "restriction_date": "2018-05-08T02:30:00.000Z", // ISO 8601 date format
         "recovery_date": "2018-05-08T09:00:00.000Z", // ISO 8601 date format
-        "restriction_duration": "6:30", // String
+        "restriction_duration": "06:30", // String
         "postponement": "NOT POSTPONED", // String
         "reason": "Damage the water supply network", // String
         "place_of_work": "პოლიტკოვსკაიას ქ. N 8-თან" // String
