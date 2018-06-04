@@ -41,28 +41,29 @@ module.exports = (function () {
   };
 
   var normallizeDate = function (date) {
-    var norm = date.replace(/\n/g, '');
-    norm += " GMT+0400"; // Explicit set timezone +4 for parsing correctly 
-    var dt = new Date(Date.parse(norm));
-    // return dt.toISOString();
+    date  = date.replace(/\n/g, ' ');
+    date  = date.replace(/\s+/g, ' ');
+    date  = date.replace(/\./g, '-');
 
-    var tzoffset = (new Date()).getTimezoneOffset() * 60000; // Offset in milliseconds
-    return (new Date(dt - tzoffset)).toISOString();
+    let dateString = date //"01:02 2010-08-13"
+      , reggie = /(\d{2}):(\d{2}) (\d{2})-(\d{2})-(\d{4})/
+      , [, hours, minutes, day, month, year] = reggie.exec(dateString)
+      , dateObject = new Date(year, month-1, day, hours, minutes);
+
+    var tzoffset = (new Date()).getTimezoneOffset() * 60000;
+
+    return (new Date(dateObject - tzoffset));
   };
 
   var calculateDuration = function (restriction_date, recovery_date) {
-    restriction_date  = restriction_date.replace(/\n/g, '');
-    restriction_date += " GMT+0400"; // Explicit set timezone +4 for parsing correctly 
-    var res_date = new Date(Date.parse(restriction_date));
+    var res_date = normallizeDate(restriction_date);
+    var rec_date = normallizeDate(recovery_date);
 
-    recovery_date  = recovery_date.replace(/\n/g, '');
-    recovery_date += " GMT+0400"; // Explicit set timezone +4 for parsing correctly 
-    var rec_date = new Date(Date.parse(recovery_date));
 
     var tmp  = (rec_date - res_date) / 1000;
     var hour = parseInt((tmp / 60) / 60);
     var min  = parseInt((tmp / 60) % 60);
-    return hour + ':' + min;
+    return hour + ':' + ('0' + min).slice(-2);;
   };
   
 
