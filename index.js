@@ -94,7 +94,7 @@ module.exports = (function () {
           var result = [];
 
           var pul = $(".todays-news ul").each(function(i, elem) {
-              result[i] = $(this).text();
+              result[i] = {text: $(this).text()};
           });
 
           return callback(null, result);
