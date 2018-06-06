@@ -13,7 +13,7 @@ describe('gwp-emergencies', function() {
   // find
   describe('get()', function() {
     it('should get a emergency info with given date 2018-05-08', function(done) {
-      gwp.get({date: '2018-05-08', street_name: 'პოლიტკოვსკაია'}, function(err, result) {
+      gwp.get({lang: 'ka', date: '2018-05-08', street_name: 'პოლიტკოვსკაია'}, function(err, result) {
         if(err) return done(err);
 
         expect(err).to.be.equal(null);
@@ -43,7 +43,7 @@ describe('gwp-emergencies', function() {
     });
 
     it('should get todays news feed about emergencies', function(done) {
-      gwp.getNews(function(err, result) {
+      gwp.getNews({lang: 'ka'}, function(err, result) {
         if(err) return done(err);
 
         expect(err).to.be.equal(null);

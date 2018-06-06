@@ -10,7 +10,8 @@ var cheerioTableparser = require('cheerio-tableparser');
 module.exports = (function () {
 
   var defTimeout = 10000,
-      url        = 'https://www.gwp.ge/ka/gadaudebeli-new';
+      defLang    = 'ka',
+      host       = 'https://www.gwp.ge/';
 
   var checkDate = function (date) {
     if (date.length === 10) {
@@ -66,14 +67,23 @@ module.exports = (function () {
     return ('0' + hour).slice(-2) + ':' + ('0' + min).slice(-2);
   };
 
-  var getNews  =  function getNews(callback) {
+  var generateUrl = function (lang) {
+    return host + lang + '/gadaudebeli-new';
+  };
+
+  var getNews  =  function getNews(options, callback) {
   
     if (typeof callback !== 'function')
       callback = function callback(err, result) {
         return err || result;
       };
 
-    var timeout = defTimeout;
+    if (!options || typeof options !== 'object')
+      return callback('Invalid options');
+
+    var timeout = options.timeout || defTimeout;
+    var lang    = options.lang || defLang;
+    var url     = generateUrl(lang);
 
     request.get({url: url, timeout: timeout}, function (err, res, body) {
     
@@ -121,6 +131,8 @@ module.exports = (function () {
     }
 
     var timeout = options.timeout || defTimeout;
+    var lang    = options.lang || defLang;
+    var url     = generateUrl(lang);
 
     request.post({url: url, timeout: timeout, form: {date: requestDate, district: '', submit: ''}}, function (err, res, body) {
 

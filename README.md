@@ -21,7 +21,7 @@ Below is an example how to obtaining information about water supply limit on str
 ```javascript
 var gem = require('gwp-emergencies-js');
 
-gem.get({date: '2018-05-08', street_name: 'პოლიტკოვსკაია'}, function(err, result) {
+gem.get({lang: 'ka', date: '2018-05-08', street_name: 'პოლიტკოვსკაია'}, function(err, result) {
   if(err) console.log(err);
 
   console.log(JSON.stringify(result, null, 2));
@@ -50,7 +50,7 @@ You can get todays news feed list about water supply limit. See example below:
 ```javascript
 var gem = require('gwp-emergencies-js');
 
-gem.getNews(function(err, result) {
+gem.getNews({lang: 'ka'}, function(err, result) {
   if(err) console.log(err);
 
   console.log(JSON.stringify(result, null, 2));
