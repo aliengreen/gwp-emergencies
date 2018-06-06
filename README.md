@@ -45,6 +45,18 @@ gem.get({date: '2018-05-08', street_name: 'პოლიტკოვსკაი�
   ]
 ```
 
+You can get todays news feed list about water supply limit. See example below:
+
+```javascript
+var gem = require('gwp-emergencies-js');
+
+gem.getNews(function(err, result) {
+  if(err) console.log(err);
+
+  console.log(JSON.stringify(result, null, 2));
+});
+```
+
 ## Notes
 
 - It uses `https://www.gwp.ge/en/gadaudebeli-new` "service"

@@ -1,4 +1,5 @@
 /* jslint node: true, sub: true */
+/* jshint esversion: 6 */
 'use strict';
 
 var request = require('request');
@@ -9,7 +10,7 @@ var cheerioTableparser = require('cheerio-tableparser');
 module.exports = (function () {
 
   var defTimeout = 10000,
-      url        = 'https://www.gwp.ge/en/gadaudebeli-new';
+      url        = 'https://www.gwp.ge/ka/gadaudebeli-new';
 
   var checkDate = function (date) {
     if (date.length === 10) {
@@ -45,10 +46,10 @@ module.exports = (function () {
     date  = date.replace(/\s+/g, ' ');
     date  = date.replace(/\./g, '-');
 
-    let dateString = date 
-      , reggie = /(\d{2}):(\d{2}) (\d{2})-(\d{2})-(\d{4})/
-      , [, hours, minutes, day, month, year] = reggie.exec(dateString)
-      , dateObject = new Date(year, month-1, day, hours, minutes);
+    let dateString = date;
+    let reggie = /(\d{2}):(\d{2}) (\d{2})-(\d{2})-(\d{4})/;
+    let [, hours, minutes, day, month, year] = reggie.exec(dateString);
+    let dateObject = new Date(year, month-1, day, hours, minutes);
 
     var tzoffset = (new Date()).getTimezoneOffset() * 60000;
 
@@ -63,6 +64,42 @@ module.exports = (function () {
     var hour = parseInt((tmp / 60) / 60);
     var min  = parseInt((tmp / 60) % 60);
     return ('0' + hour).slice(-2) + ':' + ('0' + min).slice(-2);
+  };
+
+  var getNews  =  function getNews(callback) {
+  
+    if (typeof callback !== 'function')
+      callback = function callback(err, result) {
+        return err || result;
+      };
+
+    var timeout = defTimeout;
+
+    request.get({url: url, timeout: timeout}, function (err, res, body) {
+    
+          if (err) return callback(err);
+          if (res.statusCode !== 200) return callback(new Error('request failed (' + res.statusCode + ')'));
+          if (!body) return callback(new Error('failed to get body content'));
+
+          // Check body content
+          if (body.indexOf('<') !== 0) {
+            if (body.search(/not found/i) !== -1) {
+              return callback(null, {});
+            }
+            return callback(new Error('Invalid body content'));
+          }
+
+          var $ = cheerio.load(body);
+
+          var result = [];
+
+          var pul = $(".todays-news ul").each(function(i, elem) {
+              result[i] = $(this).text();
+          });
+
+          return callback(null, result);
+    });
+
   };
 
   var get = function get(options, callback) {
@@ -148,6 +185,7 @@ module.exports = (function () {
   };
 
   return {
-    get: get
+    get: get,
+    getNews: getNews
   };
 })();
