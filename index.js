@@ -104,7 +104,17 @@ module.exports = (function () {
           var result = [];
 
           var pul = $(".todays-news ul").each(function(i, elem) {
-              result[i] = {text: $(this).text()};
+            
+            var txt = $(this).text();
+
+            if(options.street_name !== undefined) {
+              if(txt.indexOf(options.street_name) > -1) {
+               result.push({text: txt});
+              }
+            } else {
+              result.push({text: txt});
+            }
+
           });
 
           return callback(null, result);
