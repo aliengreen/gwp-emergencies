@@ -47,7 +47,7 @@ gem.get(options, function(err, result) {
         "restriction_date": "2018-05-08T02:30:00.000Z", // ISO 8601 date format
         "recovery_date": "2018-05-08T09:00:00.000Z", // ISO 8601 date format
         "restriction_duration": "06:30", // String
-        "postponement": "NOT POSTPONED", // String
+        "postponement": "NOT POSTPONED", // String or ISO 8601 date
         "reason": "Damage the water supply network", // String
         "place_of_work": "პოლიტკოვსკაიას ქ. N 8-თან" // String
     }
@@ -84,7 +84,7 @@ gem.getTodays(options, function(err, result) {
 
 ## Options
 
-- `lang` (default `ka`) -- Request language can be `en` or `ka`. (Optional)
+- `lang` (default `ka`) -- Request language can be `ka`, `en`, `ru`. (Optional)
 - `timeout` (default `10sec`) -- Request timeout in milliseconds. (Optional)
 - `date` -- Date we want to get information about water supply limit. Format should be `YYYY-MM-DD`. (Required in `get` function)
 - `street_name` -- Filter result by street name. (Optional)

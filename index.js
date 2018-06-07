@@ -43,24 +43,39 @@ module.exports = (function () {
   };
 
   var normallizeDate = function (date) {
+    var tzoffset;
+    let dateObject;
+    
     date  = date.replace(/\n/g, ' ');
     date  = date.replace(/\s+/g, ' ');
     date  = date.replace(/\./g, '-');
+      
+  try {
 
-    let dateString = date;
-    let reggie = /(\d{2}):(\d{2}) (\d{2})-(\d{2})-(\d{4})/;
-    let [, hours, minutes, day, month, year] = reggie.exec(dateString);
-    let dateObject = new Date(year, month-1, day, hours, minutes);
-
-    var tzoffset = (new Date()).getTimezoneOffset() * 60000;
-
-    return (new Date(dateObject - tzoffset));
+      let dateString = date;
+      let reggie = /(\d{2}):(\d{2}) (\d{2})-(\d{2})-(\d{4})/;
+      let [, hours, minutes, day, month, year] = reggie.exec(dateString);
+      dateObject = new Date(year, month-1, day, hours, minutes);
+  
+      tzoffset = (new Date()).getTimezoneOffset() * 60000;
+  
+  }
+  catch(error) {
+    return date;
+  }
+  
+  return (new Date(dateObject - tzoffset));
   };
 
-  var calculateDuration = function (restriction_date, recovery_date) {
+  var calculateDuration = function (restriction_date, recovery_date, postponement_date) {
     var res_date = normallizeDate(restriction_date);
     var rec_date = normallizeDate(recovery_date);
-
+  var pos_date = normallizeDate(postponement_date);
+  
+  if(pos_date instanceof Date) {
+    rec_date = pos_date;
+  }
+  
     var tmp  = (rec_date - res_date) / 1000;
     var hour = parseInt((tmp / 60) / 60);
     var min  = parseInt((tmp / 60) % 60);
@@ -193,8 +208,8 @@ module.exports = (function () {
             street_number: data[2][i + 1],
             restriction_date: normallizeDate(data[3][i + 1]),
             recovery_date: normallizeDate(data[4][i + 1]),
-            restriction_duration: calculateDuration(data[3][i + 1], data[4][i + 1]),
-            postponement: data[5][i + 1],
+            restriction_duration: calculateDuration(data[3][i + 1], data[4][i + 1], data[5][i + 1]),
+            postponement: normallizeDate(data[5][i + 1]),
             reason: data[6][i + 1],
             place_of_work: data[7][i + 1]
         };
