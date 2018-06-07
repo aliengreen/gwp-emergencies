@@ -3,10 +3,12 @@
 
 GWP Emergencies is a node module that informs you that the water supply will be limited to some parts of Tbilisi region by providing date value. Please note, current version works for Tbilisi city only.
 
-To receive information about water supply limitation you should provide date `YYYY-MM-DD` format. 
+
 
 
 ## Installation
+
+Installing from github like this:
 
 ```bash
 npm install aliengreen/gwp-emergencies
@@ -14,14 +16,21 @@ npm install aliengreen/gwp-emergencies
 
 ## Usage
 
-Date format should be `YYYY-MM-DD`. If you want to filter by street name you can specify in query parameter, the street name should be in UTF16 Georgian unicode character e.g. 'ჭავჭავაძე'; The steer name is optional and you can omit in query parameter.
+To receive information about water supply limitation you should provide date value in `options` parameter. 
+Date format should be `YYYY-MM-DD` format. If you want to filter by street name you can specify in `options` parameter, the street name should be in UTF16 Georgian unicode character e.g. 'ჭავჭავაძე'; The steer name is optional and you can omit.
 
 Below is an example how to obtaining information about water supply limit on street name 'პოლიტკოვსკაია' in 8 May 2018.
 
 ```javascript
 var gem = require('gwp-emergencies-js');
 
-gem.get({lang: 'ka', date: '2018-05-08', street_name: 'პოლიტკოვსკაია'}, function(err, result) {
+var options = {
+    date: '2018-05-08', // Required
+    lang: 'en', // Optional
+    street_name: 'პოლიტკოვსკაია' // Optional
+};
+
+gem.get(options, function(err, result) {
   if(err) console.log(err);
 
   console.log(JSON.stringify(result, null, 2));
@@ -45,12 +54,16 @@ gem.get({lang: 'ka', date: '2018-05-08', street_name: 'პოლიტკოვ�
   ]
 ```
 
-You can get todays news feed list about water supply limit. See example below:
+You can get today's news feed list about water supply limit. See example below:
 
 ```javascript
 var gem = require('gwp-emergencies-js');
 
-gem.getNews({lang: 'ka'}, function(err, result) {
+var options = {
+    lang: 'ka'
+};
+
+gem.getTodays(options, function(err, result) {
   if(err) console.log(err);
 
   console.log(JSON.stringify(result, null, 2));
@@ -67,6 +80,15 @@ gem.getNews({lang: 'ka'}, function(err, result) {
   }
 ]
 ```
+
+
+## Options
+
+- `lang` (default `ka`) -- Request language can be `en` or `ka`. (Optional parameter)
+- `timeout` (default `10sec`) -- Request timeout in milliseconds. (Optional parameter)
+- `date` -- Date we want to get information about water supply limit. Format should be `YYYY-MM-DD`. (Required in `get` function)
+- `street_name` -- Filter result by street name. (Optional)
+
 
 
 ## Notes

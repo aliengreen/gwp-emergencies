@@ -71,15 +71,23 @@ module.exports = (function () {
     return host + lang + '/gadaudebeli-new';
   };
 
-  var getNews  =  function getNews(options, callback) {
-  
-    if (typeof callback !== 'function')
-      callback = function callback(err, result) {
-        return err || result;
-      };
+  var getTodays  =  function getNews(a1, a2) {
+        var options = {}, callback;
+    
+    if(typeof a1 === 'object') {
+      options  = a1;
+      callback = a2;
+    } else if(typeof a1 === 'function') {
+      callback = a1;
+    } 
+          
+      if (typeof callback !== 'function') {
+        callback = function callback(err, result) {
+          return err || result;
+        };
+      }
 
-    if (!options || typeof options !== 'object')
-      return callback('Invalid options');
+  
 
     var timeout = options.timeout || defTimeout;
     var lang    = options.lang || defLang;
@@ -208,6 +216,6 @@ module.exports = (function () {
 
   return {
     get: get,
-    getNews: getNews
+    getTodays: getTodays
   };
 })();

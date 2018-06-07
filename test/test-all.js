@@ -42,8 +42,8 @@ describe('gwp-emergencies', function() {
       });
     });
 
-    it('should get todays news feed about emergencies', function(done) {
-      gwp.getNews({lang: 'ka'}, function(err, result) {
+    it('should get today\'s news feed about emergencies', function(done) {
+      gwp.getTodays({lang: 'ka'}, function(err, result) {
         if(err) return done(err);
 
         expect(err).to.be.equal(null);
