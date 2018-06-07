@@ -84,8 +84,8 @@ gem.getTodays(options, function(err, result) {
 
 ## Options
 
-- `lang` (default `ka`) -- Request language can be `en` or `ka`. (Optional parameter)
-- `timeout` (default `10sec`) -- Request timeout in milliseconds. (Optional parameter)
+- `lang` (default `ka`) -- Request language can be `en` or `ka`. (Optional)
+- `timeout` (default `10sec`) -- Request timeout in milliseconds. (Optional)
 - `date` -- Date we want to get information about water supply limit. Format should be `YYYY-MM-DD`. (Required in `get` function)
 - `street_name` -- Filter result by street name. (Optional)
 
